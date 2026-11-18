@@ -1,0 +1,35 @@
+
+colors = ['Red', 'Green', 'Blue']
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'C', 'D'],
+    'C': ['A', 'B', 'D'],
+    'D': ['B', 'C']
+}
+
+assignment = {}
+
+def solve():
+    if len(assignment) == len(graph):
+        return True
+
+    node = next(v for v in graph if v not in assignment)
+
+    for color in colors:
+        if all(assignment.get(n) != color
+               for n in graph[node]):
+
+            assignment[node] = color
+
+            if solve():
+                return True
+
+            del assignment[node]
+
+    return False
+
+if solve():
+    print("Map Coloring:", assignment)
+else:
+    print("No solution")
